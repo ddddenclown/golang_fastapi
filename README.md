@@ -25,7 +25,7 @@ cd analytics-service
 go mod tidy
 ```
 
-3. Запустить тесты:
+3. Запустить тесты (сначала собери бинарник!!!):
 
 ```powershell
 go test -v -cover ./...
