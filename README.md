@@ -1,70 +1,54 @@
-# Analytics Service — README (код и только код)
+# Analytics Service
 
-Кратко и по делу — всё необходимое для запуска, тестирования и сборки сервиса.
-
----
-
-## Описание
-
-Go-сервис с REST API для:
-
-* генерации/валидации JWT-токенов (`/auth`, `/validate`);
-* вычислительной аналитики (`/analytics`) с параллельной обработкой данных.
-
----
+Высокопроизводительный Go-сервис для аналитики данных с параллельной обработкой, аутентификацией и REST API.
 
 ## Требования
 
 * Go 1.21+
+* PowerShell (для Windows)
+* Git
 
----
+## Установка и запуск
 
-## Быстрый старт (в корне проекта)
+### Локальная разработка
 
-```bash
-# перейти в корень проекта (там, где go.mod)
-cd path/to/analytics-service
-
-# установить зависимости
-go mod download
-
-# собрать бинарник
-go build -o analytics-service ./cmd/server
-
-# или сразу запустить
-go run ./cmd/server
-```
-
-Windows (PowerShell):
+1. Клонировать репозиторий:
 
 ```powershell
-cd C:\path\to\analytics-service
-go mod download
+git clone <repository-url>
+cd analytics-service
+```
+
+2. Установить зависимости:
+
+```powershell
+go mod tidy
+```
+
+3. Запустить тесты:
+
+```powershell
+go test -v -cover ./...
+```
+
+4. Собрать и запустить сервис:
+
+```powershell
 go build -o analytics-service.exe ./cmd/server
 .\analytics-service.exe
 ```
 
-Сервер по умолчанию слушает порт из переменной `PORT` (по умолчанию `8080`).
+### Тестирование API
 
----
+Для проверки работы всех эндпоинтов можно использовать PowerShell скрипт:
 
-## Переменные окружения / .env
-
-Поддерживаются (минимально):
-
-```
-PORT=8080
-AUTH_SECRET_KEY=secret
-WORKERS=4
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\test_api.ps1
 ```
 
-Можно положить `.env` в корень (или экспортировать переменные в окружение перед запуском).
+## API Endpoints
 
----
-
-## API (контракт)
-
-### Health
+### 1. Health Check
 
 ```
 GET /
@@ -73,15 +57,21 @@ GET /
 Ответ:
 
 ```json
-{ "message": "Analytics Service is running" }
+{
+  "message": "Analytics Service is running"
+}
 ```
 
-### Генерация токена
+### 2. Аутентификация
 
 ```
 POST /auth
 Content-Type: application/json
+```
 
+Пример тела запроса:
+
+```json
 {
   "email": "user@example.com",
   "password": "password123"
@@ -91,158 +81,116 @@ Content-Type: application/json
 Ответ:
 
 ```json
-{ "token": "<jwt_token>" }
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
 ```
 
-### Валидация токена
+### 3. Валидация токена
 
 ```
-GET /validate?token=<jwt_token>
+GET /validate?token=<token>
 ```
 
 Ответ:
 
 ```json
-{ "valid": true }
+{
+  "valid": true
+}
 ```
 
-### Аналитика
+### 4. Аналитика
 
 ```
 POST /analytics
 Content-Type: application/json
+```
 
+Пример тела запроса:
+
+```json
 {
-  "Token": "<jwt_token>",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
   "StartDate": "01.01.2024",
   "FinishDate": "31.01.2024"
 }
 ```
 
-* **Примечание:** поле `Token`/регистрозависимость должно соответствовать тому, что ожидает реализация (см. код).
-* Тело запроса можно подать из `examples/sample.json`.
-
 Пример ответа:
 
 ```json
 {
-  "items": [ /*...*/ ],
+  "items": [
+    {
+      "Name": "Товар 1",
+      "Code": "1001",
+      "Group": "Группа 1",
+      "Sales": 500,
+      "Loss": 500,
+      "LossOfProfit": 100,
+      "OSA": 100,
+      "ABC": "A"
+    }
+  ],
   "total": 3
 }
 ```
 
----
+## Тестирование
 
-## Примеры запросов
-
-Bash (Linux / Git Bash / WSL):
-
-```bash
-# POST /auth
-curl -s -X POST http://localhost:8080/auth \
-  -H "Content-Type: application/json" \
-  -d '{"email":"test@example.com","password":"password123"}'
-
-# GET /validate
-curl -s "http://localhost:8080/validate?token=YOUR_TOKEN"
-
-# POST /analytics (from file)
-curl -s -X POST http://localhost:8080/analytics \
-  -H "Content-Type: application/json" \
-  -d @examples/sample.json
-```
-
-PowerShell:
+### Unit тесты
 
 ```powershell
-# POST /auth
-$auth = Invoke-RestMethod -Method Post -Uri http://localhost:8080/auth `
-  -Body '{"email":"test@example.com","password":"password123"}' -ContentType 'application/json'
-$token = $auth.token
-
-# GET /validate
-Invoke-RestMethod -Uri "http://localhost:8080/validate?token=$token"
-
-# POST /analytics
-Invoke-RestMethod -Method Post -Uri http://localhost:8080/analytics `
-  -Body (Get-Content .\examples\sample.json -Raw) -ContentType 'application/json'
+go test -v ./...
 ```
 
----
-
-## Тесты
-
-Запуск всех тестов (в корне проекта):
-
-```bash
-go test ./... -v
-```
-
-Покрытие:
-
-```bash
-go test ./... -coverprofile=coverage.out
-go tool cover -html=coverage.out
-```
-
----
-
-## Быстрый бенч (простая проверка)
-
-Простой вариант (PowerShell) — замер N запросов к `/analytics`:
+### Тесты с покрытием
 
 ```powershell
-$N=5; $body = Get-Content .\examples\sample.json -Raw
-$time = Measure-Command { for ($i=0;$i -lt $N;$i++) { Invoke-RestMethod -Method Post -Uri http://localhost:8080/analytics -Body $body -ContentType 'application/json' | Out-Null } }
-"Avg ms: $([math]::Round($time.TotalMilliseconds/$N,2))"
+go test -v -cover ./...
 ```
 
----
-
-## Что отправлять проверяющему (минимум)
-
-* `cmd/` и `internal/` — исходники Go
-* `go.mod`, `go.sum`
-* `examples/sample.json`
-* `routes/` с `stock_dump.json`, `sales_dump.json`, `LogPass.txt`
-* `scripts/test_api.ps1` (PowerShell) и/или `scripts/test_api.sh` (bash) — опционально
-* `README.md`
-
-> Docker/Kubernetes/monitoring/CI не обязательны — приложи только код.
-
----
-
-## Структура (минимально важная)
-
-```
-cmd/server/main.go
-internal/
-  ├─ auth/
-  ├─ analytics/
-  ├─ config/
-  ├─ handlers/
-  └─ userdb/
-examples/sample.json
-routes/stock_dump.json
-routes/sales_dump.json
-routes/LogPass.txt
-go.mod go.sum
-scripts/test_api.ps1
-```
-
----
-
-## Отладка и полезные трюки
-
-* Если видишь в PowerShell кривую кириллицу — визуальная проблема консоли; JSON UTF-8. Для копирования токена:
+### Интеграционные тесты API
 
 ```powershell
-$auth.token | Out-File token.txt -Encoding utf8
+powershell -ExecutionPolicy Bypass -File scripts\test_api.ps1
 ```
 
-* Для быстрого перезапуска после правок: `go build` → запустить новый бинарник.
-* Если endpoint возвращает пустые результаты — проверь:
+## Конфигурация
 
-  * токен валидный;
-  * `examples/sample.json` имеет правильный регистр полей;
-  * данные в `routes/` покрывают период дат из запроса.
+### Переменные окружения
+
+| Переменная        | Описание               | По умолчанию |
+| ----------------- | ---------------------- | ------------ |
+| PORT              | Порт сервера           | 8080         |
+| AUTH\_SECRET\_KEY | Секретный ключ для JWT | secret       |
+| WORKERS           | Количество worker'ов   | 4            |
+
+Пример `.env` файла:
+
+```env
+PORT=8080
+AUTH_SECRET_KEY=your-secret-key
+WORKERS=8
+```
+
+## Структура проекта
+
+```
+analytics-service/
+├── cmd/server/main.go          # Точка входа
+├── internal/
+│   ├── analytics/              # Бизнес-логика аналитики
+│   ├── auth/                   # Аутентификация
+│   ├── config/                 # Конфигурация
+│   ├── handlers/               # HTTP обработчики
+│   └── userdb/                 # Хранение токенов
+├── routes/                     # Данные (LogPas.txt, *.json)
+├── examples/                   # Примеры запросов
+├── scripts/                    # Скрипты для тестирования
+├── Makefile                    # Автоматизация сборки и тестов
+├── go.mod                      # Зависимости
+├── go.sum                      # Контроль версий зависимостей
+└── README.md                   # Документация
+```
