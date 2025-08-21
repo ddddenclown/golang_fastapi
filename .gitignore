@@ -1,0 +1,411 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+analytics-service
+analytics-service.exe
+
+# Test binary, built with `go test -c`
+*.test
+*.test.exe
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+coverage.out
+coverage.html
+
+# Dependency directories (remove the comment below to include it)
+# vendor/
+
+# Go workspace file
+go.work
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Log files
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Build artifacts
+build/
+dist/
+bin/
+
+# Docker
+.dockerignore
+
+# Kubernetes
+*.kubeconfig
+
+# Monitoring and profiling
+*.prof
+cpu.prof
+memory.prof
+block.prof
+mutex.prof
+
+# Benchmark results
+benchmark_results.txt
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Windows
+*.lnk
+desktop.ini
+
+# PowerShell
+*.ps1.log
+
+# Node.js (if any tools use it)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python (if any tools use it)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Archive files
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Documentation build
+docs/_build/
+
+# Local configuration
+config.local.*
+settings.local.*
+
+# Test data (if generated)
+test_data/
+test_output/
+
+# Performance data
+perf.data
+perf.data.old
+
+# Security scan results
+trivy-results.json
+security-scan-results.txt
+
+# Local development files
+local/
+dev/
+development/
+
+# Cache directories
+.cache/
+cache/
+
+# Package manager files
+package-lock.json
+yarn.lock
+poetry.lock
+
+# Editor specific
+.vscode/settings.json
+.vscode/launch.json
+.vscode/tasks.json
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/usage.statistics.xml
+.idea/dictionaries/
+.idea/shelf/
+
+# OS specific
+*.orig
+*.rej
+*~
+
+# Application specific
+# Keep only essential files for the Go service
+# Remove any generated or temporary files
+
+# Documentation files (keep only README.md)
+*.md
+!README.md
+
+# Configuration files
+docker-compose.yml
+docker-compose.yaml
+docker-compose.override.yml
+docker-compose.override.yaml
+.env.example
+.env.template
+
+# Kubernetes manifests
+k8s/
+kubernetes/
+*.yaml
+*.yml
+!go.mod
+!go.sum
+
+# Monitoring and observability
+monitoring/
+prometheus/
+grafana/
+*.prometheus
+*.grafana
+
+# CI/CD files
+.github/
+.gitlab-ci.yml
+.travis.yml
+.circleci/
+azure-pipelines.yml
+Jenkinsfile
+
+# IDE and editor specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+*.lnk
+desktop.ini
+
+# Scripts (keep only essential)
+scripts/
+!scripts/test_api.ps1
+!scripts/test_api.sh
+
+# Examples and samples
+samples/
+test_data/
+test_output/
+
+# Architecture and design docs
+ARCHITECTURE.md
+DEPLOYMENT.md
+PROJECT_STRUCTURE.md
+QUICKSTART.md
+PROJECT_STATUS.md
+ANALYTICS_FIX_STATUS.md
+WINDOWS_SETUP.md
+WINDOWS_UPDATES.md
+FIXES_APPLIED.md
+
+# Development and debugging
+debug/
+dev/
+development/
+local/
+
+# Backup and archive files
+*.bak
+*.backup
+*.old
+*.orig
+*.rej
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Log files
+*.log
+logs/
+log/
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Build artifacts
+build/
+dist/
+bin/
+
+# Docker
+.dockerignore
+Dockerfile
+docker-compose*.yml
+docker-compose*.yaml
+
+# Kubernetes
+*.kubeconfig
+kubeconfig
+k8s/
+kubernetes/
+
+# Monitoring and profiling
+*.prof
+cpu.prof
+memory.prof
+block.prof
+mutex.prof
+perf.data
+perf.data.old
+
+# Benchmark results
+benchmark_results.txt
+bench_results/
+
+# Security scan results
+trivy-results.json
+security-scan-results.txt
+vulnerability-reports/
+
+# Package manager files
+package-lock.json
+yarn.lock
+poetry.lock
+Pipfile
+Pipfile.lock
+requirements.txt
+requirements-dev.txt
+
+# Node.js (if any tools use it)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python (if any tools use it)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Cache directories
+.cache/
+cache/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Windows
+*.lnk
+desktop.ini
+
+# PowerShell
+*.ps1.log
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Archive files
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Documentation build
+docs/_build/
+
+# Local configuration
+config.local.*
+settings.local.*
+
+# Performance data
+perf.data
+perf.data.old
+
+# Security scan results
+trivy-results.json
+security-scan-results.txt
+
+# Local development files
+local/
+dev/
+development/
+
+# Cache directories
+.cache/
+cache/
+
+# Package manager files
+package-lock.json
+yarn.lock
+poetry.lock
+
+# Editor specific
+.vscode/settings.json
+.vscode/launch.json
+.vscode/tasks.json
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/usage.statistics.xml
+.idea/dictionaries/
+.idea/shelf/
+
+# OS specific
+*.orig
+*.rej
+*~
+
+# Application specific
+# Keep only essential files for the Go service
+# Remove any generated or temporary files
