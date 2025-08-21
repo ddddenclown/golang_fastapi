@@ -215,11 +215,6 @@ Thumbs.db
 *.lnk
 desktop.ini
 
-# Scripts (keep only essential)
-scripts/
-!scripts/test_api.ps1
-!scripts/test_api.sh
-
 # Examples and samples
 samples/
 test_data/
